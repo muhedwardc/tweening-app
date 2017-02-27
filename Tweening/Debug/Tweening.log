@@ -1,0 +1,5 @@
+﻿  MyForm.cpp
+e:\vs\tweening\tweening\MyForm.h(234): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\vs\tweening\tweening\MyForm.h(240): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Tweening.vcxproj -> E:\VS\Tweening\Debug\Tweening.exe
+  Tweening.vcxproj -> E:\VS\Tweening\Debug\Tweening.pdb (Full PDB)
