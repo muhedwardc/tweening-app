@@ -16,6 +16,11 @@ namespace Tweening {
 	{
 	
 	int state;
+	public: System::Windows::Forms::Timer^  timer1;
+
+	public:
+	private:
+
 
 			 float a;
 
@@ -44,13 +49,14 @@ namespace Tweening {
 	private: System::Windows::Forms::Button^  exitBtn;
 	private: System::Windows::Forms::PictureBox^  pictureBox;
 	private: System::Windows::Forms::Button^  resultBtn;
+	private: System::ComponentModel::IContainer^  components;
 
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -59,11 +65,13 @@ namespace Tweening {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->imgBtn = (gcnew System::Windows::Forms::Button());
 			this->tweenBtn = (gcnew System::Windows::Forms::Button());
 			this->exitBtn = (gcnew System::Windows::Forms::Button());
 			this->pictureBox = (gcnew System::Windows::Forms::PictureBox());
 			this->resultBtn = (gcnew System::Windows::Forms::Button());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -117,6 +125,11 @@ namespace Tweening {
 			this->resultBtn->UseVisualStyleBackColor = true;
 			this->resultBtn->Click += gcnew System::EventHandler(this, &MyForm::resultBtn_Click);
 			// 
+			// timer1
+			// 
+			this->timer1->Interval = 300;
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -139,6 +152,8 @@ namespace Tweening {
 	}
 
 	private: System::Void imgBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+		a = 0;
+		timer1->Stop();
 		// atur background
 		int w = pictureBox->Width;
 		int h = pictureBox->Height;
@@ -186,8 +201,8 @@ namespace Tweening {
 			//cangkang segitiga sedang depan
 			g->DrawLine(png, 413, 204, 413, 204);
 			g->DrawLine(png, 413, 204, 308, 100);
-			g->DrawLine(png, 308, 100, 415,  95);
-			g->DrawLine(png, 415,  95, 413, 204);
+			g->DrawLine(png, 308, 100, 415, 95);
+			g->DrawLine(png, 415, 95, 413, 204);
 
 			//cangkang segitiga sedang belakang
 			g->DrawLine(png, 413, 204, 415,  95);
@@ -215,65 +230,8 @@ namespace Tweening {
 	}
 
 	private: System::Void tweenBtn_Click(System::Object^  sender, System::EventArgs^  e) {
-		// atur background
-		int w = pictureBox->Width;
-		int h = pictureBox->Height;
-
-		pictureBox->Image = gcnew Bitmap(w, h);
-		Graphics ^ g = Graphics::FromImage(pictureBox->Image);
-		Brush ^ bsh = gcnew SolidBrush(Color::White);
-		g->FillRectangle(bsh, 0, 0, w, h);
-
-		// atur warna garisnya *pen
-		Pen ^ png = gcnew Pen(Color::Black);
-
-		// state
-		if (state == 0)
-		{
-			state = 1;
-			a = a + 0.1;
-			if (a >= 1.1) { a = 0; }
-		}
-		else
-		{
-			state = 0;
-			a = a + 0.1;
-			if (a >= 1.1) { a = 0; }
-		}
-
-		//// tweening nya disini
-		//body depan --> tembok **
-		g->DrawLine(png, a * 258 + (1 - a) * 45, a * 350 + (1 - a) * 300, a * 493 + (1 - a) * 388, a * 350 + (1 - a) * 300);
-		g->DrawLine(png, a * 493 + (1 - a) * 388, a * 350 + (1 - a) * 300, a * 493 + (1 - a) * 388, a * 156 + (1 - a) * 300);
-		g->DrawLine(png, a * 493 + (1 - a) * 388, a * 156 + (1 - a) * 300, a * 258 + (1 - a) * 100, a * 156 + (1 - a) * 247);
-		g->DrawLine(png, a * 258 + (1 - a) * 100, a * 156 + (1 - a) * 247, a * 258 + (1 - a) * 45, a * 350 + (1 - a) * 300);
-
-		//mata depan --> tembok
-		g->DrawLine(png, a * 112 + (1 - a) * 88, a * 364 + (1 - a) * 259, a * 112 + (1 - a) * 57, a * 156 + (1 - a) * 185);
-		g->DrawLine(png, a * 112 + (1 - a) * 57, a * 156 + (1 - a) * 185, a * 258 + (1 - a) * 64, a * 156 + (1 - a) * 180);
-		g->DrawLine(png, a * 258 + (1 - a) * 64, a * 156 + (1 - a) * 180, a * 258 + (1 - a) * 100, a * 364 + (1 - a) * 247);
-		g->DrawLine(png, a * 258 + (1 - a) * 100, a * 364 + (1 - a) * 247, a * 112 + (1 - a) * 88, a * 364 + (1 - a) * 259);
-
-		//mata belakang --> jendela
-		g->DrawLine(png, a * 140 + (1 - a) * 109, a * 299 + (1 - a) * 248, a * 140 + (1 - a) * 136, a * 205 + (1 - a) * 167);
-		g->DrawLine(png, a * 140 + (1 - a) * 135, a * 205 + (1 - a) * 167, a * 233 + (1 - a) * 145, a * 205 + (1 - a) * 170);
-		g->DrawLine(png, a * 233 + (1 - a) * 145, a * 205 + (1 - a) * 170, a * 233 + (1 - a) * 125, a * 299 + (1 - a) * 251);
-		g->DrawLine(png, a * 233 + (1 - a) * 125, a * 299 + (1 - a) * 251, a * 140 + (1 - a) * 109, a * 299 + (1 - a) * 248);
-
-
-		//cangkang kotak belakang --> pintu belah kanan
-		g->DrawLine(png, a * 393 + (1 - a) * 388, a * 350 + (1 - a) * 300, a * 350 + (1 - a) * 339, a * 350 + (1 - a) * 252);
-		g->DrawLine(png, a * 350 + (1 - a) * 339, a * 350 + (1 - a) * 252, a * 350 + (1 - a) * 488, a * 243 + (1 - a) * 155);
-		g->DrawLine(png, a * 350 + (1 - a) * 488, a * 243 + (1 - a) * 155, a * 393 + (1 - a) * 502, a * 243 + (1 - a) * 227);
-		g->DrawLine(png, a * 393 + (1 - a) * 502, a * 243 + (1 - a) * 227, a * 393 + (1 - a) * 388, a * 350 + (1 - a) * 300);
-
-
-		//cangkang kotak depan --> pintu belah kiri
-		g->DrawLine(png, a * 307 + (1 - a) * 339, a * 350 + (1 - a) * 252, a * 307 + (1 - a) * 236, a * 243 + (1 - a) * 151);
-		g->DrawLine(png, a * 307 + (1 - a) * 236, a * 243 + (1 - a) * 151, a * 350 + (1 - a) * 308, a * 243 + (1 - a) * 100);
-		g->DrawLine(png, a * 350 + (1 - a) * 308, a * 243 + (1 - a) * 100, a * 350 + (1 - a) * 413, a * 350 + (1 - a) * 204);
-		g->DrawLine(png, a * 350 + (1 - a) * 413, a * 350 + (1 - a) * 204, a * 307 + (1 - a) * 339, a * 350 + (1 - a) * 252);
-
+		a = 0;
+		timer1->Start();
 	}
 
 	private: System::Void exitBtn_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -284,6 +242,8 @@ namespace Tweening {
 	private: System::Void pictureBox_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 	private: System::Void resultBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+		a = 0;
+		timer1->Stop();
 		// atur background	
 		int w = pictureBox->Width;
 		int h = pictureBox->Height;
@@ -352,15 +312,103 @@ namespace Tweening {
 			g->DrawLine(png, 511, 156, 268, 156);
 
 			//cangkang segitiga besar --> segitiga
+			g->DrawLine(png, 179, 58, 268, 156);
 			g->DrawLine(png, 268, 156,  90, 156);
 			g->DrawLine(png,  90, 156, 179,  58);
-			g->DrawLine(png, 179,  58, 268, 156);
 
 			//cangkang segitiga sedang belakang --> corong asap **
 			g->DrawLine(png, 381, 58, 381, 29);
 			g->DrawLine(png, 381, 29, 418, 29);
 			g->DrawLine(png, 418, 29, 418, 58);
 			g->DrawLine(png, 418, 58, 381, 58);
+	}
+
+	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+		// atur background
+		int w = pictureBox->Width;
+		int h = pictureBox->Height;
+
+		pictureBox->Image = gcnew Bitmap(w, h);
+		Graphics ^ g = Graphics::FromImage(pictureBox->Image);
+		Brush ^ bsh = gcnew SolidBrush(Color::White);
+		g->FillRectangle(bsh, 0, 0, w, h);
+
+		// atur warna garisnya *pen
+		Pen ^ png = gcnew Pen(Color::Black);
+
+		// state
+		if (state == 0)
+		{
+			state = 1;
+			a = a + 0.05;
+			if (a >= 1.05) { a = 0; }
+		}
+		else
+		{
+			state = 0;
+			a = a + 0.05;
+			if (a >= 1.05) { a = 0; }
+		}
+
+		//// tweening nya disini
+		//body depan --> tembok **
+		g->DrawLine(png, a * 258 + (1 - a) * 45, a * 350 + (1 - a) * 300, a * 493 + (1 - a) * 388, a * 350 + (1 - a) * 300);
+		g->DrawLine(png, a * 493 + (1 - a) * 388, a * 350 + (1 - a) * 300, a * 493 + (1 - a) * 388, a * 156 + (1 - a) * 300);
+		g->DrawLine(png, a * 493 + (1 - a) * 388, a * 156 + (1 - a) * 300, a * 258 + (1 - a) * 100, a * 156 + (1 - a) * 247);
+		g->DrawLine(png, a * 258 + (1 - a) * 100, a * 156 + (1 - a) * 247, a * 258 + (1 - a) * 45, a * 350 + (1 - a) * 300);
+
+		//mata depan --> tembok
+		g->DrawLine(png, a * 112 + (1 - a) * 88, a * 364 + (1 - a) * 259, a * 112 + (1 - a) * 57, a * 156 + (1 - a) * 185);
+		g->DrawLine(png, a * 112 + (1 - a) * 57, a * 156 + (1 - a) * 185, a * 258 + (1 - a) * 64, a * 156 + (1 - a) * 180);
+		g->DrawLine(png, a * 258 + (1 - a) * 64, a * 156 + (1 - a) * 180, a * 258 + (1 - a) * 100, a * 364 + (1 - a) * 247);
+		g->DrawLine(png, a * 258 + (1 - a) * 100, a * 364 + (1 - a) * 247, a * 112 + (1 - a) * 88, a * 364 + (1 - a) * 259);
+
+		//mata belakang --> jendela
+		g->DrawLine(png, a * 140 + (1 - a) * 109, a * 299 + (1 - a) * 248, a * 140 + (1 - a) * 136, a * 205 + (1 - a) * 167);
+		g->DrawLine(png, a * 140 + (1 - a) * 135, a * 205 + (1 - a) * 167, a * 233 + (1 - a) * 145, a * 205 + (1 - a) * 170);
+		g->DrawLine(png, a * 233 + (1 - a) * 145, a * 205 + (1 - a) * 170, a * 233 + (1 - a) * 125, a * 299 + (1 - a) * 251);
+		g->DrawLine(png, a * 233 + (1 - a) * 125, a * 299 + (1 - a) * 251, a * 140 + (1 - a) * 109, a * 299 + (1 - a) * 248);
+
+		//cangkang kotak belakang --> pintu belah kanan
+		g->DrawLine(png, a * 393 + (1 - a) * 388, a * 350 + (1 - a) * 300, a * 350 + (1 - a) * 339, a * 350 + (1 - a) * 252);
+		g->DrawLine(png, a * 350 + (1 - a) * 339, a * 350 + (1 - a) * 252, a * 350 + (1 - a) * 488, a * 243 + (1 - a) * 155);
+		g->DrawLine(png, a * 350 + (1 - a) * 488, a * 243 + (1 - a) * 155, a * 393 + (1 - a) * 502, a * 243 + (1 - a) * 227);
+		g->DrawLine(png, a * 393 + (1 - a) * 502, a * 243 + (1 - a) * 227, a * 393 + (1 - a) * 388, a * 350 + (1 - a) * 300);
+
+		//cangkang kotak depan --> pintu belah kiri
+		g->DrawLine(png, a * 307 + (1 - a) * 339, a * 350 + (1 - a) * 252, a * 307 + (1 - a) * 236, a * 243 + (1 - a) * 151);
+		g->DrawLine(png, a * 307 + (1 - a) * 236, a * 243 + (1 - a) * 151, a * 350 + (1 - a) * 308, a * 243 + (1 - a) * 100);
+		g->DrawLine(png, a * 350 + (1 - a) * 308, a * 243 + (1 - a) * 100, a * 350 + (1 - a) * 413, a * 350 + (1 - a) * 204);
+		g->DrawLine(png, a * 350 + (1 - a) * 413, a * 350 + (1 - a) * 204, a * 307 + (1 - a) * 339, a * 350 + (1 - a) * 252);
+
+		//cangkang segitiga kecil --> jendela **
+		g->DrawLine(png, a * 428 + (1 - a) * 388, a * 299 + (1 - a) * 300, a * 428 + (1 - a) * 388, a * 205 + (1 - a) * 300);
+		g->DrawLine(png, a * 428 + (1 - a) * 388, a * 205 + (1 - a) * 300, a * 476 + (1 - a) * 502, a * 205 + (1 - a) * 227);
+		g->DrawLine(png, a * 476 + (1 - a) * 502, a * 205 + (1 - a) * 227, a * 476 + (1 - a) * 473, a * 299 + (1 - a) * 279);
+		g->DrawLine(png, a * 476 + (1 - a) * 473, a * 299 + (1 - a) * 279, a * 428 + (1 - a) * 388, a * 299 + (1 - a) * 300);
+
+		//segitiga badan belakang --> tangga **
+		g->DrawLine(png, a * 258 + (1 - a) * 388, a * 364 + (1 - a) * 300, a * 493 + (1 - a) * 388, a * 364 + (1 - a) * 300);
+		g->DrawLine(png, a * 493 + (1 - a) * 388, a * 364 + (1 - a) * 300, a * 493 + (1 - a) * 558, a * 350 + (1 - a) * 300);
+		g->DrawLine(png, a * 493 + (1 - a) * 558, a * 350 + (1 - a) * 300, a * 258 + (1 - a) * 473, a * 350 + (1 - a) * 279);
+		g->DrawLine(png, a * 258 + (1 - a) * 473, a * 350 + (1 - a) * 279, a * 258 + (1 - a) * 388, a * 364 + (1 - a) * 300);
+
+		//cangkang segitiga sedang depan --> jajargenjang **
+		g->DrawLine(png, a * 436 + (1 - a) * 413, a * 58 + (1 - a) * 204, a * 511 + (1 - a) * 413, a * 156 + (1 - a) * 204);
+		g->DrawLine(png, a * 511 + (1 - a) * 413, a * 156 + (1 - a) * 204, a * 268 + (1 - a) * 308, a * 156 + (1 - a) * 100);
+		g->DrawLine(png, a * 268 + (1 - a) * 308, a * 156 + (1 - a) * 100, a * 179 + (1 - a) * 415, a * 58 + (1 - a) * 95);
+		g->DrawLine(png, a * 179 + (1 - a) * 415, a * 58 + (1 - a) * 95, a * 436 + (1 - a) * 413, a * 58 + (1 - a) * 204);
+
+		//cangkang segitiga besar --> segitiga
+		g->DrawLine(png, a * 179 + (1 - a) * 388, a * 58 + (1 - a) * 300, a * 268 + (1 - a) * 201, a * 156 + (1 - a) * 265);
+		g->DrawLine(png, a * 268 + (1 - a) * 201, a * 156 + (1 - a) * 265, a * 90 + (1 - a) * 236, a * 156 + (1 - a) * 151);
+		g->DrawLine(png, a * 90 + (1 - a) * 236, a * 156 + (1 - a) * 151, a * 179 + (1 - a) * 388, a * 58 + (1 - a) * 300);
+
+		//cangkang segitiga sedang belakang --> corong asap **
+		g->DrawLine(png, a * 381 + (1 - a) * 413, a * 58 + (1 - a) * 204, a * 381 + (1 - a) * 415, a * 29 + (1 - a) * 95);
+		g->DrawLine(png, a * 381 + (1 - a) * 415, a * 29 + (1 - a) * 95, a * 418 + (1 - a) * 488, a * 29 + (1 - a) * 155);
+		g->DrawLine(png, a * 418 + (1 - a) * 488, a * 29 + (1 - a) * 155, a * 418 + (1 - a) * 413, a * 58 + (1 - a) * 204);
+		g->DrawLine(png, a * 418 + (1 - a) * 413, a * 58 + (1 - a) * 204, a * 381 + (1 - a) * 413, a * 58 + (1 - a) * 204);
 	}
 };
 }
